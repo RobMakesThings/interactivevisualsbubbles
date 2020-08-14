@@ -4,6 +4,7 @@
   "description": "interactive visuals for p5 and resolume",
   "main": "backend.js",
   "scripts": {
+    "start": "node backend.js",
     "test": "testit"
   },
   "keywords": [
