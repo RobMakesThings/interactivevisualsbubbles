@@ -1,0 +1,25 @@
+{
+  "name": "tonightsvisuals",
+  "version": "1.0.0",
+  "description": "interactive visuals for p5 and resolume",
+  "main": "backend.js",
+  "scripts": {
+    "test": "testit"
+  },
+  "keywords": [
+    "p5",
+    "node",
+    "sockets",
+    "resolume",
+    "vj",
+    "visuals",
+    "interactive",
+    "art"
+  ],
+  "author": "Robert Houston",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
