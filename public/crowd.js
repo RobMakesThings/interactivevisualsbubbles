@@ -2,12 +2,18 @@
 // https://github.com/shiffman/itp-networked-media
 // Daniel Shiffman
 
+
+
+
+
+//// click once to add yourself, click more times to change yourself
+
+
+
+
 // Keep track of our socket connection
 var socket;
 let BGcolor = `${'#'+Math.floor(Math.random()*16777215).toString(16)}`
-let spring = 0.05;
-let gravity = 0.03;
-let friction = -0.9;
 
 var nickname = prompt('Enter a nickname');
 // buttons using p5.clickable
@@ -17,7 +23,7 @@ var clearButton;
 
 //player vars
 var speedx = 1;
-var speedy = 1;
+var speedY = 1;
 var size ;
 var color ;
 
@@ -35,7 +41,7 @@ function setup() {
   var myCanvas = createCanvas(windowWidth-50,windowHeight-100);
   myCanvas.parent("canvas");
   size = random(20,50);
-  bModes =  [ADD,DARKEST,LIGHTEST,DIFFERENCE,EXCLUSION,MULTIPLY,BURN,BLEND];
+  bModes =  [OVERLAY,DARKEST,SOFT_LIGHT,BLEND];
   
   
   background(100  );
@@ -57,7 +63,7 @@ function setup() {
   );
 
 socket.on('playerData',function(data) {
-  console.log("Got: " + data.x + " " + data.speedy);
+  console.log("Got: " + data.x + " " + data.speedY);
   otherPlayers[data.clicks] = new shape(
     data.x,
     data.y,
@@ -115,6 +121,7 @@ push();
 blendMode(BLEND);
 blendButton.draw();
 clearButton.draw();
+shapeButton.draw();
 pop();
 }
 
@@ -128,57 +135,65 @@ pop();
   
 // }
 
-function addShape(xpos, ypos,ClientEmoji) {
-  // We are sending!
-  console.log("sendmouse: " + xpos + " " + ypos+" "+`${myMoji}`);
-  
-  // Make a little object with  and y
-  var data = {
-    x: xpos,
-    y: ypos,
-    Emoji: myMoji,
-  };
 
-  // Send that object to the socket
-  socket.emit('mouse',data);
-}
 
 function mousePressed(){
     
     console.log('thats a click');
-    clicks++;
-    player[clicks] = new shape(
-      mouseX,
-      mouseY,
-      size,
-      color,
-      random(10,20)
-    );
-    let data = {
-      x: mouseX,
-      y: mouseY,
-      size: size,
-      color: color,
-      speedx: speedx,
-      speedy:speedy,
-      clicks: clicks
-    };
-    socket.emit('playerData',data);
-    console.log(data);
+    
+    if (clicks <= 10){
+      player[clicks] = new shape(
+        mouseX,
+        mouseY,
+        100,
+        color,
+        random(10,11),
+        random(10,11),
+        nickname,
+        clicks,
+        otherPlayers,
+        player
+      );
+      clicks++;
+      let data = {
+        x: mouseX,
+        y: mouseY,
+        size: size,
+        color: color,
+        speedx: speedx,
+        speedY:speedY,
+        nickname:nickname,
+        id: clicks
+        
+  
+      };
+      socket.emit('playerData',data);
+      console.log(data);
+    }
+    else {
+      player[1].color =  `${'#'+Math.floor(Math.random()*16777215).toString(16)}`;
+      console.log(player);
+      let data = {color: color}
+      socket.emit('playerData', data);
+    }
+    return false;
 }
 
-
+let shapeButton;
 function buttons(){
   blendButton = new Clickable();     //Create button
-  blendButton.locate(120
-    , (windowHeight)-200);     
+  blendButton.locate(120,(windowHeight)-200);     
   blendButton.text = "Blend Mode"; //Position Button
   blendButton.color = "#03fcdb";
   clearButton = new Clickable();     //Create button
-  clearButton.text = "Clear Canvas"; //Position Button
+  clearButton.text = "Stage Background"; //Position Button
   clearButton.locate(240, windowHeight-200);     
   clearButton.color = "#03fcdb";
-  
+  shapeButton = new Clickable();
+  shapeButton.locate(360, windowHeight-200);
+  shapeButton.text = 'change shape';
+  shapeButton.color = '#ff7d45';
+
   ///
   blendButton.onPress = function(){  //When blendButton is pressed
     this.color = "#befc03";       //Change button color
@@ -192,7 +207,29 @@ function buttons(){
    ClearButton();
   
   }
+
+  shapeButton.onPress = function(){
+    chooseShape();
+    console.log(shapes);
+    return shapes;
+  }
 }
+
+let shapes = ['triangle', 'ellipse','rect','text'];
+
+function chooseShape(){
+let counter = 0;
+if (counter<3){
+  counter++;
+
+}
+else{
+  counter=0;
+}
+
+return shapes[counter];
+}
+
 function ClearButton(){
   var ClearData = {
     color: `${'#'+Math.floor(Math.random()*16777215).toString(16)}`,
@@ -212,43 +249,135 @@ function BlendMode(){
       socket.emit('BlendButton',BlendData);
       console.log(`${BlendData.mode}`)
   }
-
+  let spring = 0.05;
+  let gravity = 0.5;
+  let friction = -0.9;
+  
 
 /// when a person comes in and clicks, add a
 // shape that bounces around with a color tied to them
 class shape {
-constructor(x, y, size, color,speedx,speedy, nickname){
+constructor(x, y, size, color,speedx,speedY, nickname, clicks,otherPlayers, player){
   this.x = x;
   this.y = y;
   this.size = size;
+
+
+
+
   this.color = color;
   this.speedx = speedx;
-  this.speedy = speedy;
+  this.speedY = speedY;
   this.name = nickname;
-  
+  this.id = clicks;
+  this.others = otherPlayers;
+  this.player = player;
 
 }
-collide(){
+
+
+collide(){/// other players and player need to be tracked. 
  
-  if (this.x>=windowWidth || this.x<this.size){
-    this.speedx*=-1
+
+for (let i = this.id+1 ; i< player.length; i++){
+
+let dx = this.player[i].x - this.x;
+let dy = this.player[i].y - this.y;
+let distance = sqrt(dx * dx + dy * dy);
+let minDist = this.player[i].size + this.size;
+// console.log(dx);
+if (distance < minDist) {
+  console.log("2");
+  let angle = atan2(dy, dx);
+  let targetX = this.x + cos(angle) * minDist;
+  let targetY = this.y + sin(angle) * minDist;
+  let ax = (targetX - this.player[i].x) * spring;
+  let ay = (targetY - this.player[i].y) * spring;
+  this.vx -= ax;
+  this.vy -= ay;
+  this.player[i].x += ax;
+  this.player[i].y += ay;
+}
+
+}
+if (otherPlayers.length>1){
+  
+for (let i = otherPlayers.id+1 ; i< otherPlayers.length; i++){
+
+  let dx = this.otherPlayers[i].x - this.x;
+  let dy = this.otherPlayers[i].y - this.y;
+  let distance = sqrt(dx * dx + dy * dy);
+  let minDist = this.otherPlayers[i].size/2 + this.size/2;
+  // console.log(dx);
+  if (distance < minDist) {
+    console.log("2");
+    let angle = atan2(dy, dx);
+    let targetX = this.x + cos(angle) * minDist;
+    let targetY = this.y + sin(angle) * minDist;
+    let ax = (targetX - this.otherPlayers[i].x) * spring;
+    let ay = (targetY - this.otherPlayers[i].y) * spring;
+    this.vx -= ax;
+    this.vy -= ay;
+    this.otherPlayers[i].x += ax;
+    this.otherPlayers[i].y += ay;
   }
-  if (this.y>=windowHeight || this.y<this.size){
-    this.speedy*=-1
+  
   }
+
+}
+
+
+
 }
 
 move(){
-
-this.x+= this.speedx;
-this.y+= this.speedy;
+  
+  this.speedY += gravity;
+  this.x += this.speedx;
+  this.y += this.speedY;
+  if (this.x + this.size / 2 > width) {
+    this.x = width - this.size / 2;
+    this.speedx *= friction;
+  } else if (this.x - this.size / 2 < 0) {
+    this.x = this.size / 2;
+    this.speedx *= friction;
+  }
+  if (this.y + this.size / 2 > height) {
+    this.y = height - this.size / 2;
+    this.speedY *= friction;
+  } else if (this.y - this.size / 2 < 0) {
+    this.y = this.size / 2;
+    this.speedY *= friction;
+  }
 }
+
 
 show(){
 fill(this.color);
-textSize(200);
+
+
+
+
+
+
+// draw player
 ellipse(this.x, this.y, this.size);
-text(this.name, this.x, this.y);
+
+
+
+
+
+
+//style nickname
+
+stroke(0);
+strokeWeight(1);
+fill(250);
+
+
+// draw nickname
+textSize(5);
+text(`${nickname}`, this.x-2, this.y);
 
 }
 }

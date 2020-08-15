@@ -73,7 +73,7 @@ function(ClearData){console.log(ClearData);
 
 socket.on('playerData',
 function(data){console.log(socket.id+' sent data '+`${data}`)
-io.sockets.emit('playerData',data);
+io.emit('playerData',data);
 }
 );
 
