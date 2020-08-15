@@ -13,7 +13,7 @@ function setup() {
   background(100);
   // Start a socket connection to the server
   // Some day we would run this server somewhere else
-  socket = io.connect('/booth');
+  socket = io.connect();
   // We make a named event called 'mouse' and write an
   // anonymous callback function
   socket.on('mouse',
@@ -28,19 +28,7 @@ function setup() {
     }
   );
 
-// // socket.on('otherPlayersData',function(data) {
-// //   console.log("Got: " + data.x + " " + data.y);
-// //   otherotherPlayerss[data.clicks] = new shape(
-// //     data.x,
-// //     data.y,
-// //     data.size,
-// //     data.color,
-// //     random(10,20)
-// //   );
 
-
-
-// });
 socket.on('playerData',function(data) {
   
   otherPlayers[data.id] = new shape(
@@ -53,7 +41,7 @@ socket.on('playerData',function(data) {
     data.nickname,
     data.id,
     otherPlayers,
-    otherPlayers
+    
     
   );
 console.log(otherPlayers);
