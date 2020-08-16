@@ -3,9 +3,9 @@ var myButton;
 
 let BGcolor = `${'#'+Math.floor(Math.random()*16777215).toString(16)}`
 
-
+let clientID ;
 let otherPlayers = [];
-
+let clientsConnected;
 let clicks = 0;
 
 function setup() {
@@ -27,7 +27,9 @@ function setup() {
       text(data.Emoji,data.x, data.y,);
     }
   );
-
+socket.on('numberOfPlayer', function(numberOfPlayers){
+clientsConnected+=(numberOfPlayers*10);
+});
 
 socket.on('playerData',function(data) {
   
@@ -40,7 +42,8 @@ socket.on('playerData',function(data) {
     data.speedY,
     data.nickname,
     data.id,
-    otherPlayers,
+    otherPlayers
+    
     
     
   );
@@ -85,19 +88,18 @@ function draw() {
 
 
 
-
-let spring = 0.2;
-  let gravity = 0.03;
+let spring = 0.05;
+  let gravity = 0.5;
   let friction = -0.9;
   
 
 /// when a person comes in and clicks, add a
 // shape that bounces around with a color tied to them
 class shape {
-constructor(x, y, size, color,speedx,speedy, nickname, clicks,otherPlayers){
+constructor(x, y, size, color,speedx,speedy, nickname, clicks,otherPlayers, clientID){
   this.x = x;
   this.y = y;
-  this.size = size;
+  this.size = 100;
 
 
 
@@ -108,47 +110,52 @@ constructor(x, y, size, color,speedx,speedy, nickname, clicks,otherPlayers){
   this.name = nickname;
   this.id = clicks;
   this.others = otherPlayers;
+  this.client = socket.id;
 
 }
 
 
 collide(){/// other otherPlayerss and otherPlayers need to be tracked. 
-  for (let i = otherPlayers.id ; i< otherPlayers.length; i++){
-
-    let dx = this.otherPlayers[i].x - this.x;
-    let dy = this.otherPlayers[i].y - this.y;
+  //  if (otherPlayers.length>2){
+  for (let i = this.id+1; i<this.others.length; i++){
+    
+    let dx = this.others[i].x - this.x;
+    let dy = this.others[i].y - this.y;
     let distance = sqrt(dx * dx + dy * dy);
-    let minDist = this.otherPlayers[i].size + this.size;
-    // console.log(dx);
+    let minDist = this.others[i].size + this.size;
+    
+    console.log('nice');
+     console.log(dx);
+     console.log(dy)
     if (distance < minDist) {
-      console.log("2");
+      
       let angle = atan2(dy, dx);
       let targetX = this.x + cos(angle) * minDist;
       let targetY = this.y + sin(angle) * minDist;
-      let ax = (targetX - this.otherPlayers[i].x) * spring;
-      let ay = (targetY - this.otherPlayers[i].y) * spring;
+      let ax = (targetX - this.others[i].x) * spring;
+      let ay = (targetY - this.others[i].y) * spring;
       this.vx -= ax;
       this.vy -= ay;
-      this.otherPlayers[i].x += ax;
-      this.otherPlayers[i].y += ay;
+      this.others[i].x += ax;
+      this.others[i].y += ay;
     }
     
     }
 
 
+   }
+
+  // }
 
 
-
-
-}
 
 move(){
   
   this.speedy += gravity;
   this.x += this.speedx;
   this.y += this.speedy;
-  if (this.x + this.size / 2 > width) {
-    this.x = width - this.size / 2;
+  if (this.x + this.size  > width) {
+    this.x = width - this.size ;
     this.speedx *= friction;
   } else if (this.x - this.size / 2 < 0) {
     this.x = this.size / 2;

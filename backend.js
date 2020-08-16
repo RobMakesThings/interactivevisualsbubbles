@@ -9,7 +9,7 @@ var app = express();
 // Set up the server
 // process.env.PORT is related to deploying on heroku
 var server = app.listen(process.env.PORT || 3000, listen);
-
+let numberOfPlayers = 0;
 // This call back just tells us that the server has started
 function listen() {
   var host = server.address().address;
@@ -34,8 +34,9 @@ var io = require('socket.io')(server);
 // This is run for each individual user that connects
 io.sockets.on('connection',
   // We are given a websocket object in our function
-  function (socket) {
   
+  function (socket) {
+    numberOfPlayers++;
     console.log("We have a new client: " + socket.id);
   
     // When this user emits, client side: socket.emit('otherevent',some data);
@@ -43,7 +44,7 @@ io.sockets.on('connection',
       function(data) {
         // Data comes in as whatever was sent, including objects
         console.log("Received: 'mouse' " + data.x + " " + data.y+` ${data.Emoji}`);
-      
+       
         // Send it to all other clients
         socket.broadcast.emit('mouse', data);
         //
@@ -74,6 +75,8 @@ function(ClearData){console.log(ClearData);
 socket.on('playerData',
 function(data){console.log(socket.id+' sent data '+`${data}`)
 io.emit('playerData',data);
+io.emit('numberOfPlayers', numberOfPlayers);
+console.log(numberOfPlayers);
 }
 );
 

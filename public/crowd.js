@@ -27,6 +27,7 @@ var speedY = 1;
 var size ;
 var color ;
 
+
 let player = [];
 let otherPlayers = [];
 let clicks = 0;
@@ -37,6 +38,8 @@ let myMoji = mojis[Math.floor(Math.random()*mojis.length)];
 
 function setup() {
   console.log(nickname);
+
+  
   color = `${'#'+Math.floor(Math.random()*16777215).toString(16)}`;
   var myCanvas = createCanvas(windowWidth-50,windowHeight-100);
   myCanvas.parent("canvas");
@@ -163,7 +166,8 @@ function mousePressed(){
         speedx: speedx,
         speedY:speedY,
         nickname:nickname,
-        id: clicks
+        id: clicks,
+        clientid: socket.id
         
   
       };
@@ -287,7 +291,7 @@ let distance = sqrt(dx * dx + dy * dy);
 let minDist = this.player[i].size + this.size;
 // console.log(dx);
 if (distance < minDist) {
-  console.log("2");
+  
   let angle = atan2(dy, dx);
   let targetX = this.x + cos(angle) * minDist;
   let targetY = this.y + sin(angle) * minDist;
