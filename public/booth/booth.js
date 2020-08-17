@@ -33,7 +33,7 @@ clientsConnected+=(numberOfPlayers*10);
 
 socket.on('playerData',function(data) {
   
-  otherPlayers[data.id] = new shape(
+  otherPlayers.push( new shape(
     data.x,
     data.y,
     data.size,
@@ -46,7 +46,7 @@ socket.on('playerData',function(data) {
     
     
     
-  );
+  ));
 console.log(otherPlayers);
 
 
@@ -118,15 +118,15 @@ constructor(x, y, size, color,speedx,speedy, nickname, clicks,otherPlayers, clie
 collide(){/// other otherPlayerss and otherPlayers need to be tracked. 
   //  if (otherPlayers.length>2){
   for (let i = this.id+1; i<this.others.length; i++){
-    
+    //console.log(this.others[i].x );
     let dx = this.others[i].x - this.x;
     let dy = this.others[i].y - this.y;
     let distance = sqrt(dx * dx + dy * dy);
     let minDist = this.others[i].size + this.size;
     
-    console.log('nice');
-     console.log(dx);
-     console.log(dy)
+    // console.log('nice');
+    //  console.log(dx);
+    //  console.log(dy)
     if (distance < minDist) {
       
       let angle = atan2(dy, dx);
