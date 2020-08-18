@@ -18,11 +18,11 @@ function listen() {
 }
 
 app.use(express.static(__dirname + "/public"));
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 });
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/booth/booth.html');
 });
 
@@ -34,17 +34,17 @@ var io = require('socket.io')(server);
 // This is run for each individual user that connects
 io.sockets.on('connection',
   // We are given a websocket object in our function
-  
+
   function (socket) {
     numberOfPlayers++;
     console.log("We have a new client: " + socket.id);
-  
+
     // When this user emits, client side: socket.emit('otherevent',some data);
     socket.on('mouse',
-      function(data) {
+      function (data) {
         // Data comes in as whatever was sent, including objects
-        console.log("Received: 'mouse' " + data.x + " " + data.y+` ${data.Emoji}`);
-       
+        console.log("Received: 'mouse' " + data.x + " " + data.y + ` ${data.Emoji}`);
+
         // Send it to all other clients
         socket.broadcast.emit('mouse', data);
         //
@@ -56,37 +56,46 @@ io.sockets.on('connection',
       }
     );
     socket.on('BlendButton',
-    function(BlendData){console.log(BlendData);
-       // socket.broadcast.emit('BlendButton', BlendData);
+      function (BlendData) {
+        console.log(BlendData);
+        // socket.broadcast.emit('BlendButton', BlendData);
         io.sockets.emit('BlendButton', BlendData);
 
 
-}
-);
-socket.on('clearButton',
-function(ClearData){console.log(ClearData);
-   // socket.broadcast.emit('BlendButton', BlendData);
-    io.sockets.emit('clearButton', ClearData);
+      }
+    );
+    socket.on('clearButton',
+      function (ClearData) {
+        console.log(ClearData);
+        // socket.broadcast.emit('BlendButton', BlendData);
+        io.sockets.emit('clearButton', ClearData);
 
 
-}
-);
+      }
+    );
 
-socket.on('playerData',
-function(data){console.log(socket.id+' sent data '+`${data}`)
-io.emit('playerData',data);
-io.emit('numberOfPlayers', numberOfPlayers);
-console.log(numberOfPlayers);
-}
-);
+    socket.on('playerData',
+      function (data) {
+        console.log(socket.id + ' sent data ' + `${data}`)
+        io.emit('playerData', data);
+        io.emit('numberOfPlayers', numberOfPlayers);
+        console.log(numberOfPlayers);
+      }
+    );
 
-
-    socket.on('button',function(mouseIsPressed){console.log(socket.id+'pressed their mouse')+mouseIsPressed})
-    socket.on('disconnect', function() {
+    
+    socket.on('button', function (mouseIsPressed) {
+      console.log(socket.id + 'pressed their mouse') + mouseIsPressed
+    });
+    socket.on('disconnect', function () {
       console.log("Client has disconnected");
     });
-    socket.on('button1',function(){console.log(socket.id+' has pressed the first button')});
+    socket.on('button1', function () {
+      console.log(socket.id + ' has pressed the first button')
+    });
+    socket.on('colorData', function(data){
+      io.emit('colorData',data);
+    });
   }
- 
+  
 );
- 
