@@ -30,7 +30,9 @@ function setup() {
       data.speedY,
       data.nickname,
       data.id,
-      otherPlayers
+      otherPlayers,
+      data.clientid
+
 
 
 
@@ -39,21 +41,26 @@ function setup() {
 
 
   });
+  // each client chooses their own color
+  socket.on('colorData', function (colordata) {
+
+    console.log(otherPlayers)
+    console.log(colordata.clientID)
+    for (let i = 0; i < otherPlayers.length; i++) {
+      if (otherPlayers[i].client === colordata.clientID) {
+        otherPlayers[i].color = colordata.color;
 
 
-  // lets change the color after 10 clicks
-//   socket.on('colorData', function (data) {
-//     otherPlayers.forEach(shape => {
-//       shape.color = data.color;
-//     });
-// console.log(data);
-//   });
-  myButton = new Clickable(); //Create button
-  myButton.locate(100, 100); //Position Button
-  myButton.onPress = function () { //When myButton is pressed
-    this.color = "#AAAAFF"; //Change button color
-    alert("Yay!"); //Show an alert message
-  }
+        ///color button
+
+      }
+
+    }
+
+  });
+
+
+
 }
 
 function draw() {
@@ -84,7 +91,7 @@ function draw() {
 
 
 
-let spring = 0.05;
+let spring = 0.02;
 let gravity = 0.05;
 let friction = -0.9;
 
@@ -106,19 +113,19 @@ class shape {
     this.name = nickname;
     this.id = clicks;
     this.others = otherPlayers;
-    this.client = socket.id;
+    this.client = clientID;
 
   }
   //stop moving to the right. 
 
   collide() { /// other otherPlayerss and otherPlayers need to be tracked. 
-     //if (otherPlayers.length>2){
+    //if (otherPlayers.length>2){
     for (let i = 1; i < this.others.length; i++) {
       //console.log(this.others[i].x );
       let dx = this.others[i].x - this.x;
       let dy = this.others[i].y - this.y;
       let distance = sqrt(dx * dx + dy * dy);
-      let minDist = this.others[i].size/2 + this.size/2;
+      let minDist = this.others[i].size / 2 + this.size / 2;
 
       //console.log('helo')
       //  console.log(dx);
@@ -141,7 +148,7 @@ class shape {
 
   }
 
-   //}
+  //}
 
 
 
@@ -150,8 +157,8 @@ class shape {
     this.speedy += gravity;
     this.x += this.speedx;
     this.y += this.speedY;
-    if (this.x + this.size/2 > width) {
-      this.x = width - this.size/2;
+    if (this.x + this.size / 2 > width) {
+      this.x = width - this.size / 2;
       this.speedx *= friction;
     } else if (this.x - this.size / 2 < 0) {
       this.x = this.size / 2;
@@ -185,8 +192,8 @@ class shape {
 
     //style nickname
 
-    stroke(0);
-    strokeWeight(1);
+    stroke(200);
+    strokeWeight(2);
     fill(250);
 
 
@@ -196,50 +203,3 @@ class shape {
 
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// class shape {
-//   constructor(x, y, size, color,speedx,speedy){
-//     this.x = x;
-//     this.y = y;
-//     this.size = size;
-//     this.color = color;
-//     this.speedx = speedx;
-//     this.speedy = speedy;
-
-//   }
-//   collide(){
-
-//     if (this.x>=windowWidth || this.x<this.size){
-//       this.speedx*=-1
-//     }
-//     if (this.y>=windowHeight || this.y<this.size){
-//       this.speedy*=-1
-//     }
-//   }
-
-//   move(){
-
-//   this.x+= this.speedx;
-//   this.y+= this.speedy;
-//   }
-
-//   show(){
-//   fill(this.color);
-//   ellipse(this.x, this.y, this.size);
-//   }
-//   }

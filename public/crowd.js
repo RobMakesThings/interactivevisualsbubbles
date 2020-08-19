@@ -172,41 +172,24 @@ function mousePressed() {
     };
     socket.emit('playerData', data);
     console.log(data);
-  } else {
-    // player[1].color = `${'#'+Math.floor(Math.random()*16777215).toString(16)}`;
-    // console.log(player);
-    // let data = {
-    //   color: color
-    // }
-
-
-    player.forEach(shape => {
-      shape.color =  `${'#'+Math.floor(Math.random()*16777215).toString(16)}`;
-    })
-    
   }
-  let data = {
-    color: color,
-    clientID: socket.id
-  };
-  socket.emit('colorData', data);
-  return false; 
+
 }
 
 let shapeButton;
 
 function buttons() {
   blendButton = new Clickable(); //Create button
-  blendButton.locate(120, (windowHeight) - 200);
-  blendButton.text = "Blend Mode"; //Position Button
+  blendButton.locate(120, (windowHeight) - 100);
+  blendButton.text = "Blend"; //Position Button
   blendButton.color = "#03fcdb";
   clearButton = new Clickable(); //Create button
-  clearButton.text = "Stage Background"; //Position Button
-  clearButton.locate(240, windowHeight - 200);
+  clearButton.text = "Stage Color"; //Position Button
+  clearButton.locate(240, windowHeight - 100);
   clearButton.color = "#03fcdb";
   shapeButton = new Clickable();
-  shapeButton.locate(360, windowHeight - 200);
-  shapeButton.text = 'change shape';
+  shapeButton.locate(360, windowHeight - 100);
+  shapeButton.text = 'My Color';
   shapeButton.color = '#ff7d45';
 
   ///
@@ -224,24 +207,31 @@ function buttons() {
   }
 
   shapeButton.onPress = function () {
-    chooseShape();
-    console.log(shapes);
-    return shapes;
+
+    let colorData = {
+      color: `${'#'+Math.floor(Math.random()*16777215).toString(16)}`,
+    };
+    this.color = colorData.color;
+    player.forEach(shape => {
+      shape.color = colorData.color;
+
+
+      return false;
+    });
+    let colordata = {
+      color: colorData.color,
+      clientID: socket.id
+    };
+    socket.emit('colorData', colordata);
+    console.log(colordata);
   }
 }
 
-let shapes = ['triangle', 'ellipse', 'rect', 'text'];
 
-function chooseShape() {
-  let counter = 0;
-  if (counter < 3) {
-    counter++;
 
-  } else {
-    counter = 0;
-  }
 
-  return shapes[counter];
+function playerColor() {
+
 }
 
 function ClearButton() {

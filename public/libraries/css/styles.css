@@ -15,23 +15,44 @@ canvas {
 
 #title {
     z-index: 1;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Russo One', sans-serif;
     color: blanchedalmond;
     font-size: 50px;
-    padding: 0;
+    padding: 0em;
     text-align: center;
+    animation: wiggle .8s linear 10s infinite alternate;
 }
+
+
+
+@keyframes wiggle {
+    from {
+        padding-top: 0em;
+    }
+
+    to {
+        padding-top: .3em;
+    }
+}
+
 /*  make title wiggle or dance a little
 
+
+
+
+
+
+
  make footer placed in a normal postition
- 
+
 
 
  */
 #foot {
     background-color: grey;
     text-align: center;
-    position: absolute;
-    bottom: 1000px;
+    position: fixed;
+    bottom: 0px;
+    width: 20em;
     z-index: -1;
 }

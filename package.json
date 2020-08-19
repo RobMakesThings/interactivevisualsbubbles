@@ -5,7 +5,11 @@
   "main": "backend.js",
   "scripts": {
     "start": "node backend.js",
-    "test": "testit"
+    "test": "testit",
+    "open": "start http://localhost:3000",
+    "openStage": "start http://localhost:3000/booth/booth.html"
+
+
   },
   "keywords": [
     "p5",

@@ -83,7 +83,7 @@ io.sockets.on('connection',
       }
     );
 
-    
+
     socket.on('button', function (mouseIsPressed) {
       console.log(socket.id + 'pressed their mouse') + mouseIsPressed
     });
@@ -93,9 +93,10 @@ io.sockets.on('connection',
     socket.on('button1', function () {
       console.log(socket.id + ' has pressed the first button')
     });
-    socket.on('colorData', function(data){
-      io.emit('colorData',data);
+    socket.on('colorData', function (colordata) {
+      console.log(colordata);
+      io.emit('colorData', colordata);
     });
   }
-  
+
 );
