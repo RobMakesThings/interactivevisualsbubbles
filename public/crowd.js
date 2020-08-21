@@ -192,11 +192,25 @@ function buttons() {
   shapeButton.text = 'My Color';
   shapeButton.color = '#ff7d45';
 
+
+  ///
+
+  // styling buttons 
+  blendButton.cornerRadius = 2;
+  clearButton.cornerRadius = 2;
+  shapeButton.cornerRadius = 2;
+
+  blendButton.onRelease = function () {
+    blendButton.cornerRadius = 2;
+  };
+
+
   ///
   blendButton.onPress = function () { //When blendButton is pressed
     this.color = "#befc03"; //Change button color
     //Show an alert message
     BlendMode();
+
 
   }
   clearButton.onPress = function () { //When blendButton is pressed
@@ -239,7 +253,7 @@ function ClearButton() {
     color: `${'#'+Math.floor(Math.random()*16777215).toString(16)}`,
 
   };
-
+  clearButton.color = ClearData.color
   socket.emit('clearButton', ClearData);
   console.log(`${ClearData.color}`)
 }

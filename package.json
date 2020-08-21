@@ -8,8 +8,6 @@
     "test": "testit",
     "open": "start http://localhost:3000",
     "openStage": "start http://localhost:3000/booth/booth.html"
-
-
   },
   "keywords": [
     "p5",
@@ -24,6 +22,7 @@
   "author": "Robert Houston",
   "license": "ISC",
   "dependencies": {
+    "bulma": "^0.9.0",
     "express": "^4.17.1",
     "socket.io": "^2.3.0"
   }

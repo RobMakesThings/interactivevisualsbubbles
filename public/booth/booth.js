@@ -125,7 +125,7 @@ class shape {
       let dx = this.others[i].x - this.x;
       let dy = this.others[i].y - this.y;
       let distance = sqrt(dx * dx + dy * dy);
-      let minDist = this.others[i].size / 2 + this.size / 2;
+      let minDist = this.others[i].size + this.size;
 
       //console.log('helo')
       //  console.log(dx);
@@ -175,18 +175,28 @@ class shape {
 
 
   show() {
+    //push();
+
     fill(this.color);
 
 
 
 
 
-
+    stroke(0);
+    strokeWeight(2);
     // draw otherPlayers
     ellipse(this.x, this.y, this.size);
 
+    push();
+    strokeWeight(3);
+    stroke(250);
+    //rotate(PI);
+    rectMode(CENTER)
+    fill(this.color)
+    rect(this.x, this.y, this.size / 1.5, this.size / 1.5)
 
-
+    pop();
 
 
 
@@ -199,7 +209,7 @@ class shape {
 
     // draw nickname
     textSize(25);
-    text(`${this.name}`, this.x - 2, this.y);
-
+    text(`${this.name}`, this.x - (this.size / 4), this.y);
+    //pop();
   }
 }
