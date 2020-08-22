@@ -15,9 +15,10 @@ canvas {
 
 #title {
     z-index: 1;
+    align-content: center;
     font-family: 'Russo One', sans-serif;
     color: blanchedalmond;
-    font-size: 50px;
+    font-size: 1em;
     padding: 0em;
     text-align: center;
     animation: wiggle .8s linear 10s infinite alternate;
@@ -53,6 +54,6 @@ canvas {
     text-align: center;
     position: fixed;
     bottom: 0px;
-    width: 20em;
+    right: 20px;
     z-index: -1;
 }

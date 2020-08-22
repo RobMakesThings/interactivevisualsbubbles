@@ -180,15 +180,15 @@ let shapeButton;
 
 function buttons() {
   blendButton = new Clickable(); //Create button
-  blendButton.locate(120, (windowHeight) - 100);
+  blendButton.locate(120, (windowHeight) - 70);
   blendButton.text = "Blend"; //Position Button
   blendButton.color = "#03fcdb";
   clearButton = new Clickable(); //Create button
   clearButton.text = "Stage Color"; //Position Button
-  clearButton.locate(240, windowHeight - 100);
+  clearButton.locate(240, windowHeight - 70);
   clearButton.color = "#03fcdb";
   shapeButton = new Clickable();
-  shapeButton.locate(360, windowHeight - 100);
+  shapeButton.locate(360, windowHeight - 70);
   shapeButton.text = 'My Color';
   shapeButton.color = '#ff7d45';
 
