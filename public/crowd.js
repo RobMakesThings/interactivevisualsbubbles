@@ -15,7 +15,9 @@
 var socket;
 let BGcolor = `${'#'+Math.floor(Math.random()*16777215).toString(16)}`
 
-var nickname = prompt('Enter a nickname, 3 letters max, \n emojis for full effect', '🔉🎶📀');
+var nickname = '';
+
+
 // buttons using p5.clickable
 var blendButton;
 let bModes = [];
@@ -138,40 +140,43 @@ function draw() {
 
 
 function mousePressed() {
-  speedx = random(-10, 10);
-  speedY = random(-10, 10);
-  size = random(100, 200);
-  console.log('thats a click');
+  if (isLooping()) {
 
-  if (clicks <= 10) {
-    player[clicks] = new shape(
-      mouseX,
-      mouseY,
-      size,
-      color,
-      speedx,
-      speedY,
-      nickname,
-      clicks,
-      otherPlayers,
-      player
-    );
-    clicks++;
-    let data = {
-      x: mouseX,
-      y: mouseY,
-      size: size,
-      color: color,
-      speedx: speedx,
-      speedY: speedY,
-      nickname: nickname,
-      id: clicks,
-      clientid: socket.id
+    speedx = random(-10, 10);
+    speedY = random(-10, 10);
+    size = random(100, 200);
+    console.log('thats a click');
+
+    if (clicks <= 10) {
+      player[clicks] = new shape(
+        mouseX,
+        mouseY,
+        size,
+        color,
+        speedx,
+        speedY,
+        nickname,
+        clicks,
+        otherPlayers,
+        player
+      );
+      clicks++;
+      let data = {
+        x: mouseX,
+        y: mouseY,
+        size: size,
+        color: color,
+        speedx: speedx,
+        speedY: speedY,
+        nickname: nickname,
+        id: clicks,
+        clientid: socket.id
 
 
-    };
-    socket.emit('playerData', data);
-    console.log(data);
+      };
+      socket.emit('playerData', data);
+      console.log(data);
+    }
   }
 
 }

@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <title></title>
     <meta name="description" content="">
     <link type='text/css' rel="stylesheet" href="/libraries/css/bulma.css">
@@ -23,14 +23,40 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.js"
         integrity="sha512-KxzVm+IqxNNq0+SzT/zzd5PHxY4LPrN+v5gZJ6+JKqjeU3Cr4y/djAg5eNlKDWurn1SeKZpql/yeOMWblMSzOg=="
         crossorigin="anonymous"></script> -->
+
     <script src="/libraries/p5.clickable.js"></script>
     <script src="/crowd.js"></script>
 </head>
 
-<body>
+<body onload="startModal();">
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+    <div class="modal is is-active" id="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="card">
+                <div class="card-content">
+
+                    <p class="title">
+                        Welcome!
+                    </p>
+                    <p class="subtitle">
+                        Please enter a nickname. Emojis work great!
+                    </p>
+                    <input class="input" id="nickName" type="text" placeholder="🦚🎆🎇">
+                </div>
+                <footer class="card-footer">
+
+                    <div class="control">
+                        <button class="button is-dark" id="myBtn" onclick="submitNickname();">Submit</button>
+                    </div>
+
+                </footer>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close" onclick="closeModal();"></button>
+    </div>
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
 
@@ -38,7 +64,7 @@
             <a class="navbar-item" href="https://www.unbound-principles.com">
                 <img src="/Untitled-1.png" alt="Unbound Principles " width="50" height="50">
             </a>
-            <div class="is-pulled-right" id="title">TonightsVisuals</div>
+            <div class='title has-text-right' id="title">TonightsVisuals</div>
 
         </div>
     </nav>
@@ -46,7 +72,7 @@
     <div id="canvas"></div>
     <script src="" async defer></script>
     <div id="foot">
-
+        <script src="/libraries/other.js"></script>
         <div class="notification is-dark is-pulled-right">
             <button class="delete" onclick="this.parentElement.style.display='none'"></button>
             click or touch to add yourself.
