@@ -8,6 +8,11 @@ physics example from
 https://p5js.org/examples/motion-bouncy-bubbles.html
 
 
+instead of blend modes, have different animated backgrounds on the stage computer
+penrose system- 
+
+particles?
+https://p5js.org/examples/simulate-particles.html
 
 
 
@@ -31,7 +36,7 @@ each client gets options to control
 
 '#'+Math.floor(Math.random()*16777215).toString(16) --- random color
 
-client is made up of buttons, add shape
+client is made up of a canvas 
 
 buttons do effects like changing background, or the client color.
 
@@ -43,17 +48,27 @@ enter a nickname--3Chars-- emojis are best.
 drawing shows on stage computer but not on other clients. 
 
 ---- style goals---
-z index
-animated intro with no prompt anymore, more seamless exp. 
+[x] z index
+
+[x] bulma on client side
+
+[ ] animated intro with no prompt anymore, more seamless exp. -- using modals  and css transitions?
 
 
 
 
 .... stretch goals
 
-multiple animated backgrounds
+multiple animated backgrounds --- find a random processing sketch?
 
 optimize code to perfrom better 
 set interval? dont store anything
 
-figure out how to deploy-- heroku--AWS-- google cloud-- any other options
+figure out how to deploy-- --AWS-- 
+[x] heroku https://tonightsvisuals.herokuapp.com/ or https://tonightsvisuals.herokuapp.com/booth/booth.html for booth
+
+[x] google cloud https://crested-acumen-283919.wn.r.appspot.com/ or https://crested-acumen-283919.wn.r.appspot.com/booth/booth.html for booth
+
+[x] AWS at http://tonightsvisuals-env.eba-idbdbiam.us-east-1.elasticbeanstalk.com/
+
+[ ] VPS provider or other cloud service 

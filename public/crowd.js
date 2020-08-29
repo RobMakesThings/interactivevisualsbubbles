@@ -9,7 +9,7 @@
 //// click once to add yourself, click more times to change yourself
 
 
-
+var bgchoice = ['particle', 'pentTiles', 'noiseWave'];
 
 // Keep track of our socket connection
 var socket;
@@ -19,9 +19,9 @@ var nickname = '';
 
 
 // buttons using p5.clickable
-var blendButton;
+
 let bModes = [];
-var clearButton;
+
 
 //player vars
 
@@ -35,7 +35,7 @@ let myMoji = mojis[Math.floor(Math.random() * mojis.length)];
 
 
 function setup() {
-  nickname = nickname.substr(0, 4);
+
   console.log(nickname);
   //frameRate(24);
 
@@ -43,7 +43,7 @@ function setup() {
   var myCanvas = createCanvas(windowWidth, windowHeight);
   myCanvas.parent("canvas");
   size = random(20, 50);
-  bModes = [OVERLAY, DARKEST, SOFT_LIGHT, BLEND];
+  bModes = [DARKEST, SOFT_LIGHT, BLEND];
 
 
   background(100);
@@ -80,19 +80,12 @@ function setup() {
   });
 
   ///
-  buttons();
 
 
-  // socket.on('ClientEmoji',
-  // // When we receive data
-  // function(data) {
-  //   var data ={
-  //       "emoji":myMoji
-  //   };
-  // }
-  // );
+
+
 }
-//creates a random blend mode to send to the server 
+
 
 
 function draw() {
@@ -121,9 +114,7 @@ function draw() {
   });
   push();
   blendMode(BLEND);
-  blendButton.draw();
-  clearButton.draw();
-  shapeButton.draw();
+
   pop();
 }
 
@@ -181,97 +172,31 @@ function mousePressed() {
 
 }
 
-let shapeButton;
-
-function buttons() {
-  blendButton = new Clickable(); //Create button
-  blendButton.locate(120, (windowHeight) - 70);
-  blendButton.text = "Blend"; //Position Button
-  blendButton.color = "#03fcdb";
-  clearButton = new Clickable(); //Create button
-  clearButton.text = "Stage Color"; //Position Button
-  clearButton.locate(240, windowHeight - 70);
-  clearButton.color = "#03fcdb";
-  shapeButton = new Clickable();
-  shapeButton.locate(360, windowHeight - 70);
-  shapeButton.text = 'My Color';
-  shapeButton.color = '#ff7d45';
 
 
-  ///
-
-  // styling buttons 
-  blendButton.cornerRadius = 2;
-  clearButton.cornerRadius = 2;
-  shapeButton.cornerRadius = 2;
-
-  blendButton.onRelease = function () {
-    blendButton.cornerRadius = 2;
-  };
 
 
-  ///
-  blendButton.onPress = function () { //When blendButton is pressed
-    this.color = "#befc03"; //Change button color
-    //Show an alert message
-    BlendMode();
-
-
-  }
-  clearButton.onPress = function () { //When blendButton is pressed
-    this.color = "#4ef542"; //Change button color
-    //Show an alert message
-    ClearButton();
-
-  }
-
-  shapeButton.onPress = function () {
-
-    let colorData = {
-      color: `${'#'+Math.floor(Math.random()*16777215).toString(16)}`,
-    };
-    this.color = colorData.color;
-    player.forEach(shape => {
-      shape.color = colorData.color;
-
-
-      return false;
-    });
-    let colordata = {
-      color: colorData.color,
-      clientID: socket.id
-    };
-    socket.emit('colorData', colordata);
-    console.log(colordata);
-  }
-}
 
 
 
 
 function playerColor() {
-
+  xplayerColorChange();
 }
 
 function ClearButton() {
-  var ClearData = {
+  let ClearData = {
     color: `${'#'+Math.floor(Math.random()*16777215).toString(16)}`,
 
   };
-  clearButton.color = ClearData.color
+
   socket.emit('clearButton', ClearData);
   console.log(`${ClearData.color}`)
 }
 
-function BlendMode() {
 
-  var BlendData = {
-    mode: bModes[Math.floor(Math.random() * bModes.length)]
-  };
 
-  socket.emit('BlendButton', BlendData);
-  console.log(`${BlendData.mode}`)
-}
+
 let spring = 0.05;
 let gravity = 0.05;
 let friction = -0.9;
@@ -407,4 +332,46 @@ class shape {
     text(`${nickname}`, this.x - 2, this.y);
 
   }
+}
+
+
+
+
+function xplayerColorChange() {
+
+  let colorData = {
+    color: `${'#'+Math.floor(Math.random()*16777215).toString(16)}`,
+  };
+  this.color = colorData.color;
+  player.forEach(shape => {
+    shape.color = colorData.color;
+
+
+    return false;
+  });
+  let colordata = {
+    color: colorData.color,
+    clientID: socket.id
+  };
+  socket.emit('colorData', colordata);
+  console.log(colordata);
+}
+
+function BlendMode() {
+
+  var BlendData = {
+    mode: bModes[Math.floor(Math.random() * bModes.length)]
+  };
+
+  socket.emit('BlendButton', BlendData);
+  console.log(`${BlendData.mode}`)
+}
+
+function BgChoice() {
+  var BackData = {
+    choice: bgchoice[Math.floor(Math.random() * bgchoice.length)]
+  };
+  socket.emit('bgChoice', backData);
+  console.log(backData.choice);
+
 }

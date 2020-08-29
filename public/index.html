@@ -16,7 +16,9 @@
     <link type='text/css' rel="stylesheet" href="/libraries/css/bulma.css">
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/libraries/css/styles.css">
-    <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.4.5.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"
+        integrity="sha512-v8ng/uGxkge3d1IJuEo6dJP8JViyvms0cly9pnbfRxT6/31c3dRWxIiwGnMSWwZjHKOuY3EVmijs7k1jz/9bLA=="
+        crossorigin="anonymous"></script>
     </script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.1.4/lib/p5.min.js"></script>
 
@@ -32,10 +34,10 @@
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <div class="modal is is-active" id="modal">
+    <div class="modal is-active is-bold" id="modal">
         <div class="modal-background"></div>
         <div class="modal-content">
-            <div class="card">
+            <div class="card is-small">
                 <div class="card-content">
 
                     <p class="title">
@@ -57,27 +59,52 @@
         </div>
         <button class="modal-close is-large" aria-label="close" onclick="closeModal();"></button>
     </div>
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
+    <nav class="navbar is-fullwidth is-dark is-bold" role="navigation" aria-label="main navigation">
+        <div class="navbar-start">
+            <div class="navbar-brand">
 
 
-            <a class="navbar-item" href="https://www.unbound-principles.com">
-                <img src="/Untitled-1.png" alt="Unbound Principles " width="50" height="50">
-            </a>
-            <div class='title has-text-right' id="title">TonightsVisuals</div>
+                <a class="navbar-item" href="https://www.unbound-principles.com">
+                    <img src="/Untitled-1.png" alt="Unbound Principles " width="80" height='80'>
+                </a>
 
-        </div>
+            </div>
+            <div class="navbar-end">
+                <div class="container">
+                    <div class='title' id="title">
+                        <a href="#" class="navbar-item">TonightsVisuals</a> </div>
+                </div>
+            </div>
     </nav>
+    </div>
 
     <div id="canvas"></div>
     <script src="" async defer></script>
     <div id="foot">
         <script src="/libraries/other.js"></script>
-        <div class="notification is-dark is-pulled-right">
+        <!-- <div class="notification is-dark is-pulled-right">
             <button class="delete" onclick="this.parentElement.style.display='none'"></button>
             click or touch to add yourself.
-        </div>
+        </div> -->
     </div>
+
+    <div class="box" id="button-container">
+
+        <div class="buttons are-small is-dark">
+            <button class="button is-primary is-outlined" id="clientColorButton" onclick="playerColor()">Change My
+                Color</button>
+            <button class="button is-primary is-outlined" id="bgButton" onclick="BgChoice()">Change
+                Background</button>
+            <button class="button is-primary is-outlined" id="blendButton" onclick="ClearButton()">Change Stage
+                Color</button>
+            <button class="button is-primary is-outlined" id="stageColorButton" onclick="BlendMode()">Change blend
+                mode</button>
+
+        </div>
+
+    </div>
+
+
 </body>
 
 </html>

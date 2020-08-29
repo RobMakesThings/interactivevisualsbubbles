@@ -25,7 +25,9 @@ var nameinput = document.getElementById('nickName');
 function submitNickname() {
 
     console.log(nameinput.value)
+
     nickname = nameinput.value;
+    nickname = nickname.substr(0, 4);
     addModal.classList.remove('is-active');
     loop();
 }

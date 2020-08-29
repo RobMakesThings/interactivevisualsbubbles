@@ -5,12 +5,12 @@ html {
 }
 
 canvas {
-    z-index: -1;
+    /* z-index: -1; */
     margin: 4px;
     border-radius: 2px;
-    position: absolute;
-    left: 1em;
-    top: 0px;
+    position: relative;
+    /* left: 1em;
+    top: 0px; */
 }
 
 #title {
@@ -18,21 +18,25 @@ canvas {
     align-content: center;
     font-family: 'Russo One', sans-serif;
     color: blanchedalmond;
-    font-size: 1em;
-    padding: 0em;
+    font-size: 1.2em;
+    padding-top: .5em;
+    padding-left: 1em;
     text-align: center;
     animation: wiggle .8s linear 10s infinite alternate;
+    letter-spacing: 5px;
 }
 
 
 
 @keyframes wiggle {
     from {
-        padding-top: 0em;
+        padding-left: 2em;
+        letter-spacing: 5px;
     }
 
     to {
-        padding-top: .3em;
+        padding-left: .02em;
+        letter-spacing: 10px;
     }
 }
 
@@ -56,4 +60,13 @@ canvas {
     bottom: 0px;
     right: 20px;
     z-index: -1;
+}
+
+#button-container {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+#buttons {
+    padding: 50px;
 }

@@ -2,22 +2,32 @@ var socket;
 var myButton;
 
 let BGcolor = `${'#'+Math.floor(Math.random()*16777215).toString(16)}`
-
+let particles = [];
 let clientID;
 let otherPlayers = [];
 let clientsConnected;
 let clicks = 0;
 
+
+/// background functions 
+
+let penTiles;
+
+
+
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(100);
+  setupParticle();
   // Start a socket connection to the server
   // Some day we would run this server somewhere else
   socket = io.connect();
   // We make a named event called 'mouse' and write an
   // anonymous callback function
 
-
+  penTiles = new PenroseLSystem();
+  penTiles.simulate(5)
 
   socket.on('playerData', function (data) {
 
@@ -61,11 +71,32 @@ function setup() {
 
 
 
+
+
 }
 
+
 function draw() {
-  // Nothing
+
   background(BGcolor);
+  push();
+
+
+  socket.on('bgChoice', function (BackData) {
+    chooseBackground(BackData);
+    console.log(BackData.choice);
+  });
+
+  pop();
+  push();
+  otherPlayers.forEach(shape => {
+    shape.collide();
+    shape.move();
+    shape.show();
+  });
+  pop();
+
+
   socket.on('BlendButton',
     function (BlendData) {
       blendMode(`${BlendData.mode}`);
@@ -77,12 +108,6 @@ function draw() {
       background(`${ClearData.color}`);
     }
   );
-  otherPlayers.forEach(shape => {
-    shape.collide();
-    shape.move();
-    shape.show();
-  });
-
 
 }
 
@@ -188,7 +213,7 @@ class shape {
     // draw otherPlayers
     ellipse(this.x, this.y, this.size);
 
-    push();
+    //push();
     strokeWeight(3);
     stroke(250);
     //rotate(PI);
@@ -196,7 +221,7 @@ class shape {
     fill(this.color)
     rect(this.x, this.y, this.size / 1.5, this.size / 1.5)
 
-    pop();
+    //pop();
 
 
 
@@ -211,5 +236,25 @@ class shape {
     textSize(25);
     text(`${this.name}`, this.x - (this.size / 4), this.y);
     //pop();
+  }
+}
+
+
+function chooseBackground(bg) {
+
+  if (bg.choice === "penTiles") {
+    penTiles.render();
+    console.log("penttiles");
+  } else if (bg.choice === "noiseWave") {
+    noiseWave();
+    console.log("noiseWave");
+  } else if (bg.choice === "particle") {
+    console.log("particles");
+    for (let i = 0; i < particles.length; i++) {
+      // particles[i].createParticle();
+      // particles[i].moveParticle();
+      // particles[i].joinParticles(particles.slice(i));
+      console.log('howdy bitch')
+    }
   }
 }
