@@ -73,8 +73,8 @@ io.sockets.on('connection',
 
       }
     );
-    socket.on('bgChoice', function (backData) {
-      io.sockets.emit('bgChoice', backData);
+    socket.on('bgChoice', function (BackData) {
+      io.sockets.emit('bgChoice', BackData);
       console.log('fuck');
     });
     socket.on('playerData',

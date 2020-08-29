@@ -11,7 +11,7 @@ let b = 590;
 
 
 class PenroseLSystem {
-    constructor(gen) {
+    constructor() {
 
         this.steps = 0;
         //these are axiom and rules for the penrose rhombus l-system

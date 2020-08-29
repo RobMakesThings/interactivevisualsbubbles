@@ -371,7 +371,7 @@ function BgChoice() {
   var BackData = {
     choice: bgchoice[Math.floor(Math.random() * bgchoice.length)]
   };
-  socket.emit('bgChoice', backData);
-  console.log(backData.choice);
+  socket.emit('bgChoice', BackData);
+  console.log(BackData.choice);
 
 }

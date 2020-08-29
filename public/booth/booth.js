@@ -81,13 +81,13 @@ function draw() {
   background(BGcolor);
   push();
 
-
-  socket.on('bgChoice', function (BackData) {
-    chooseBackground(BackData);
-    console.log(BackData.choice);
-  });
+  // socket.on('bgChoice', function (BackData) {
+  //   chooseBackground(BackData);
+  //   console.log(BackData.choice);
+  // });
 
   pop();
+
   push();
   otherPlayers.forEach(shape => {
     shape.collide();
@@ -108,7 +108,7 @@ function draw() {
       background(`${ClearData.color}`);
     }
   );
-
+  // noiseWave();
 }
 
 
@@ -250,11 +250,11 @@ function chooseBackground(bg) {
     console.log("noiseWave");
   } else if (bg.choice === "particle") {
     console.log("particles");
-    for (let i = 0; i < particles.length; i++) {
-      // particles[i].createParticle();
-      // particles[i].moveParticle();
-      // particles[i].joinParticles(particles.slice(i));
-      console.log('howdy bitch')
-    }
+    // for (let i = 0; i < particles.length; i++) {
+    //   // particles[i].createParticle();
+    //   // particles[i].moveParticle();
+    //   // particles[i].joinParticles(particles.slice(i));
+    //   console.log('howdy bitch')
+    // }
   }
 }
