@@ -1,6 +1,11 @@
 
+
+This project stems from a desire to incorporate crowd participation at shows while doing live visuals. It turned into a great foray into web development with node, as well as deploying the service to 3 major cloud providers. 
+Below is some old documentation, I would love to return to this project at some point. 
+
+
 attributions:
-basically same concept as mine. implemented a little differently. 
+It's basically the same concept as mine. implemented a little differently. 
 https://github.com/rfikes4/resolume-interactive-demo/blob/master/public/stage.js
 
 
@@ -18,14 +23,15 @@ https://p5js.org/examples/simulate-particles.html
 
 overview
 [x]--sockets.io for backend
-[x]-- p5 for frontend
-[]-- comes in to visual computer and gets piped into resolume
-syphon? spout? ndi?
+[x]-- p5.js for frontend
+[]-- comes in to visual computer through OBS and gets piped into resolume with spout or whatever. 
 
 
-master is visual computer
 
-each client gets options to control 
+
+each client gets options to control or add emoji to screen 
+
+
 
 [x]each client gets a random emoji or shape that bounces around
 [x]button for blend mode
